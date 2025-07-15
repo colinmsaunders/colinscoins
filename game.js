@@ -4,6 +4,7 @@ const sizeSelect = document.getElementById('size');
 const newGameBtn = document.getElementById('newGame');
 const movesSpan = document.getElementById('moves');
 const winDiv = document.getElementById('win');
+const stateSpan = document.getElementById('state');
 let size = 2;
 let state = 0n;
 let moves = 0;
@@ -13,12 +14,12 @@ function randomState(size) {
     let tries = 0;
     do {
         s = 0n;
-        for (let i = 0; i < 2 * total; i++) {
+        for (let i = 0; i < (2 * total * total) + Math.round(Math.random()); i++) {
             const idx = Math.floor(Math.random() * total);
             s = flip(s, idx, size);
         }
         tries++;
-    } while ((s === 0n || s === (1n << BigInt(total)) - 1n) && tries < 10);
+    } while ((s === 0n) && tries < 10);
     return s;
 }
 function getBit(state, idx) {
@@ -37,6 +38,7 @@ function flip(state, idx, size) {
 function render() {
     boardDiv.innerHTML = '';
     boardDiv.style.gridTemplateColumns = `repeat(${size}, 40px)`;
+    stateSpan.textContent = `${state}`;
     for (let i = 0; i < size * size; i++) {
         const coin = document.createElement('div');
         coin.className = 'coin' + (getBit(state, i) ? '' : ' white');
@@ -46,6 +48,7 @@ function render() {
             state = flip(state, i, size);
             moves++;
             movesSpan.textContent = `Moves: ${moves}`;
+            stateSpan.textContent = `${state}`;
             render();
             if (state === 0n) {
                 winDiv.classList.remove('hidden');
