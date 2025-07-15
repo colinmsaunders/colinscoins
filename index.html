@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colin's Coins</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Colin's Coins</h1>
+        <div class="instructions">
+            Click on a coin to flip it. Flipping a coin flips all coins in the same row and column. Flip all coins to white to win!
+        </div>
+        <div class="controls">
+            <label for="size">Board Size:</label>
+            <select id="size">
+                <option value="2">2x2</option>
+                <option value="3">3x3</option>
+                <option value="4">4x4</option>
+                <option value="5">5x5</option>
+                <option value="6">6x6</option>
+                <option value="7">7x7</option>
+                <option value="8">8x8</option>
+            </select>
+            <button id="newGame">New Game</button>
+            <span id="moves">Moves: 0</span>
+        </div>
+        <div id="board"></div>
+        <div id="win" class="hidden">You win!</div>
+    </div>
+    <script src="game.js"></script>
+</body>
+</html>

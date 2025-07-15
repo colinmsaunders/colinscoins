@@ -1,0 +1,54 @@
+body {
+    font-family: 'Rubik', Arial, sans-serif;
+    background: #f5f5f5;
+    margin: 0;
+    padding: 0;
+}
+.container, .instructions, .controls, #moves, #win, h1, label, button, select {
+    font-family: 'Rubik', Arial, sans-serif;
+}
+.container {
+    max-width: 500px;
+    margin: 40px auto;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    padding: 24px;
+    text-align: center;
+}
+.instructions {
+    margin-bottom: 18px;
+}
+.controls {
+    margin-bottom: 20px;
+}
+#board {
+    display: grid;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+.coin {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #222;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.3s;
+    border: 2px solid #888;
+}
+.coin.white {
+    background: #fff;
+    border-color: #bbb;
+}
+#win {
+    color: green;
+    font-size: 1.5em;
+    margin-top: 10px;
+}
+.hidden {
+    display: none;
+}
