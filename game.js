@@ -9,10 +9,16 @@ let state = 0n;
 let moves = 0;
 function randomState(size) {
     let s = 0n;
-    for (let i = 0; i < size * size; i++) {
-        if (Math.random() < 0.5)
-            s |= (1n << BigInt(i));
-    }
+    const total = size * size;
+    let tries = 0;
+    do {
+        s = 0n;
+        for (let i = 0; i < 2 * total; i++) {
+            const idx = Math.floor(Math.random() * total);
+            s = flip(s, idx, size);
+        }
+        tries++;
+    } while ((s === 0n || s === (1n << BigInt(total)) - 1n) && tries < 10);
     return s;
 }
 function getBit(state, idx) {
