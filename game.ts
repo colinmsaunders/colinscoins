@@ -45,19 +45,46 @@ function render() {
     boardDiv.innerHTML = '';
     boardDiv.style.gridTemplateColumns = `repeat(${size}, 40px)`;
     stateSpan.textContent = `${state}`;
+    const coinElements: HTMLDivElement[] = [];
     for (let i = 0; i < size * size; i++) {
         const coin = document.createElement('div');
         coin.className = 'coin' + (getBit(state, i) ? '' : ' white');
+        coinElements.push(coin);
         coin.onclick = () => {
             if (state === 0n) return;
-            state = flip(state, i, size);
-            moves++;
-            movesSpan.textContent = `Moves: ${moves}`;
-            stateSpan.textContent = `${state}`;
-            render();
-            if (state === 0n) {
-                winDiv.classList.remove('hidden');
+            // Animate affected coins with old color
+            const coins = Array.from(boardDiv.children) as HTMLDivElement[];
+            const row = Math.floor(i / size);
+            const col = i % size;
+            for (let j = 0; j < size; j++) {
+                coins[row * size + j].classList.add('flipping'); // row
+                coins[j * size + col].classList.add('flipping'); // col
             }
+            // At midpoint, update state and coin color
+            setTimeout(() => {
+                state = flip(state, i, size);
+                moves++;
+                movesSpan.textContent = `Moves: ${moves}`;
+                stateSpan.textContent = `${state}`;
+                // Update only affected coins' color
+                for (let j = 0; j < size; j++) {
+                    const coinRow = coins[row * size + j];
+                    coinRow.className = 'coin' + (getBit(state, row * size + j) ? '' : ' white') + ' flipping';
+                    const coinCol = coins[j * size + col];
+                    coinCol.className = 'coin' + (getBit(state, j * size + col) ? '' : ' white') + ' flipping';
+                }
+                if (state === 0n) {
+                    winDiv.classList.remove('hidden');
+                }
+            }, 150); // halfway through animation
+            // At end, remove flipping class and re-render
+            setTimeout(() => {
+                for (let j = 0; j < size; j++) {
+                    coins[row * size + j].classList.remove('flipping');
+                    coins[j * size + col].classList.remove('flipping');
+                }
+                render();
+            }, 300); // match animation duration
         };
         boardDiv.appendChild(coin);
     }
